@@ -38,6 +38,8 @@ const typeDefs = gql`
 
   type Mutation {
     newUser(name: String!, age: Int!): String!
+    updateUser(name: String!, age: Int!, id: ID!): String!
+    deleteUser(id: ID!): String!
   }
 `;
 
@@ -51,6 +53,17 @@ const resolvers = {
     newUser: (_, { name, age }) => {
       users.push({ id: users.length + 1, name, age });
       return "Ok";
+    },
+    updateUser: (_, { name, age, id }) => {
+      foundUser = users.find((e) => e.id == id);
+      foundUser.name = name ? name : foundUser.name;
+      foundUser.age = age ? age : foundUser.age;
+      return "Updated";
+    },
+    deleteUser: (_, { id }) => {
+      foundUser = users.findIndex((e) => e.id == id);
+      users.splice(foundUser, 1);
+      return "deleted";
     },
   },
 };
