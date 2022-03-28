@@ -25,11 +25,39 @@ const users = [
   },
 ];
 
+const posts = [
+  {
+    id: 1,
+    title: "kecha Qor yog`di",
+    body: "Laylak qor yog`di",
+    author: 1,
+  },
+  {
+    id: 2,
+    title: "Bugun Yomg`ir yog`di",
+    body: "juda ko`p yog`di",
+    author: 1,
+  },
+  {
+    id: 3,
+    title: "ertaga do`l yog`adi",
+    body: "Moshinalaringizni panaga qo`ying",
+    author: 2,
+  },
+];
+
 const typeDefs = gql`
   type Users {
     id: ID!
     name: String!
     age: Int!
+    posts: [Posts]
+  }
+
+  type Posts {
+    id: ID!
+    title: String!
+    body: String
   }
 
   type Query {
@@ -47,6 +75,9 @@ const resolvers = {
   Query: {
     getUsers: () => {
       return users;
+    },
+    getPosts: () => {
+      return Posts;
     },
   },
   Mutation: {
