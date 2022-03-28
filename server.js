@@ -6,8 +6,24 @@ databasadagi ma`lumot qachon bizni sxemamiz resolve bo`sa keyin keladi
 ! gql -> apollo-serverda gql degan syntax orqali biz query yozamiz
 
 ! type Query{} -> degan built-in type bor va vazifasi RestApidagi GET methodi
+! "!" -> not null qiymat kelishi shart degani
+Resolver -> sxemaga ma`lumotni tushirib beruvchi
+!Mutation -> built-in type bo`lib bu restApi dagi "POST", "PUT", "DELETE" methodlarini o`rnini bosadi 
 */
 const { ApolloServer, gql } = require("apollo-server");
+
+const users = [
+  {
+    id: 1,
+    name: "Muslim",
+    age: 21,
+  },
+  {
+    id: 2,
+    name: "Abdumalik",
+    age: 20,
+  },
+];
 
 const typeDefs = gql`
   type Users {
@@ -19,11 +35,23 @@ const typeDefs = gql`
   type Query {
     getUsers: [Users]
   }
+
+  type Mutation {
+    newUser(name: String!, age: Int!): String!
+  }
 `;
 
 const resolvers = {
   Query: {
-    getUsers: () => [],
+    getUsers: () => {
+      return users;
+    },
+  },
+  Mutation: {
+    newUser: (_, { name, age }) => {
+      users.push({ id: users.length + 1, name, age });
+      return "Ok";
+    },
   },
 };
 
